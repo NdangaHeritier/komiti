@@ -1,0 +1,7 @@
+/* @layer utilities {
+  input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px rgb(75, 114, 75) inset !important;
+    -webkit-text-fill-color: rgb(29, 28, 28) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+} */
