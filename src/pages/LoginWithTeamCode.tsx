@@ -52,7 +52,7 @@ export default function LoginWithTeamCode (){
         
     };
     return (
-        <section className="flex items-center justify-center p-5">
+        <section className="flex items-center justify-center p-5 min-h-screen bg-gray-100">
             <div className="rounded-2xl border border-gray-300 bg-white shadow-sm p-10 w-full max-w-md">
                 <h2 className="text-3xl font-bold mb-5 text-center">Login with Team Code</h2>
                 <form className="space-y-6" onSubmit={handleSubmit}>

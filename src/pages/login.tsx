@@ -62,7 +62,7 @@ export default function Login () {
                         K
                     </span>
                     <div className="text-base text-gray-700">
-                        <h4 className="font-bold text-4xl">Komiti Signin</h4>
+                        <h4 className="font-bold text-4xl">Welcome to {currentTeam?.name}</h4>
                         <p className="font-medium">Signin to start manage your contributions</p>
                     </div>
                 </div>
