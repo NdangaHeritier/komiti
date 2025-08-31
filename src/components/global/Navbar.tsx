@@ -3,7 +3,7 @@ import { FormButton } from "./forms/Button";
 import { ButtonLink } from "./UI/ButtonLink";
 
 // A header of the app where main links are . included in ../App.tsx
-export default function Navbar ( {loggedIn = false}:{loggedIn?: boolean}){
+export default function Navbar (){
     const {currentUser, signout}= useAuth();
     return (
         <header className="bg-gray-100 p-5 flex items-center justify-between gap-5">
