@@ -1,4 +1,4 @@
-import { ButtonLink } from "./UI/LinkBtn";
+import { ButtonLink } from "./UI/ButtonLink";
 
 // A header of the app where main links are . included in ../App.tsx
 export default function Navbar ( {loggedIn = false}:{loggedIn?: boolean}){

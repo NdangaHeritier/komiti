@@ -2,13 +2,28 @@ import { useState } from "react";
 import { Input } from "../components/global/forms/inputField";
 import { FormButton } from "../components/global/forms/Button";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
+import toast from "react-hot-toast";
 
 export default function Login () {
     const [authInfo, setAuthInfo] = useState({
         email: "",
         password: "",
     });
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { currentTeam, signin, currentUser } = useAuth();
+
+    // if user is already logged in redirect to dashboard
+    if (currentUser) {
+        navigate("/dashboard");
+    }
+
+    // check if there's active team set in context if not redirect to team code login page.
+    
+    if (!currentTeam) {
+        navigate("/team-code-login");
+    }
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -16,12 +31,27 @@ export default function Login () {
 
     }
 
-    // Handle submit on login to set user in Auth context.
-    // remember in useAuth is a custom hook to handle all Auth action(signin, signout, loading and even profile updation.)
-    const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        navigate("/dashboard")
-        // login here when i have mbs i will implement it forsure
+        if (!currentTeam) {
+           toast.error("Please enter your team code first");
+            navigate("/team-code-login");
+            return;
+        }
+        setLoading(true);
+        try{
+            await signin(authInfo.email, authInfo.password);
+            toast.success("Login successful");
+            navigate("/dashboard");
+        }
+        catch (error){
+            toast.error("Login failed, please check your credentials");
+            console.error("Login error:", error);
+            return;
+        }
+        finally{
+            setLoading(false);
+        }
     }
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 w-full p-10">
@@ -40,7 +70,7 @@ export default function Login () {
                     {/* Adding form elements using reusable components for inputs, textarea, ... for easy reusable and one update and handle all. */}
                     <Input name="email" type="email" onChange={handleChange} value={authInfo.email}  />
                     <Input name="password" type="password" onChange={handleChange} value={authInfo.password} />
-                    <FormButton text="Login" type="submit" />
+                    <FormButton text="Login" type="submit" disabled={loading} />
                 </form>
             </section>
         </div>

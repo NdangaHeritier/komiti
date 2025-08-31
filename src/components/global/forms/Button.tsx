@@ -2,17 +2,20 @@
 // why added? to help you make one button styles that you can edit and change in one place for all over the app.
 // how to use. you just pass the button type and onClick if available for CTAs buttons and for form button you pass a submit type.
 
+import { Icon } from "../UI/Icon"
+
 
 // Declared a type of data allowed to be passed as a props to my button. to avoid error at time..
 type ButtonProps = {
    type: "submit" | "reset" | "button" | undefined, //my button should receive one of this type as allowed or undefined value..
     variant?: "primary" | "secondary" | "green" | "blue", // a color variant for user to choose what button color he like to use..
     onClick?: () => void, // onClick handler for CTAs and other reusable button like a button which will open a contribution modal..
-    text: string // a button main text to display must be a string as well.
+    text: string
+    disabled?: boolean
 }
 
 export const FormButton = (
-    {type="button", text, variant= "primary", onClick}:ButtonProps // Assign the type of props you want to receive to the props you'll receive so it checks whether they match as decalred.
+    {type="button", text, variant= "primary", onClick, disabled=false}:ButtonProps // Assign the type of props you want to receive to the props you'll receive so it checks whether they match as decalred.
 ) => {
 
     // declare the color variants classes for user to choose adn then apply related variant classes to button className..
@@ -28,10 +31,11 @@ export const FormButton = (
         // in another component. the FormButton will apply the variant classes for blue color and type as requested then return this button in-place.
         <button
             type={type}
-            className={`${colors[variant]} font-semibold duration-400 text-base px-5 py-3 flex items-center justify-center gap-2 focus:ring-2`}
+            className={`${colors[variant]} ${disabled ? `opacity-80 cursor-not-allowed`: `cursor-pointer`} font-semibold duration-400 text-base px-5 py-3 flex items-center justify-center gap-2 focus:ring-2 w-full`}
             onClick={onClick}
+            disabled={disabled}
         >
-            {text}
+            {disabled ? <Icon name="Loader" size={20} className="animate-spin" /> : text}
         </button>
     )
 }

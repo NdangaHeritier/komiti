@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Login from "./pages/login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
+import LoginWithTeamCode from "./pages/LoginWithTeamCode";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -18,7 +20,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element= {<Dashboard />} />
+            <Route path="/team-code-login" element={<LoginWithTeamCode />} />
           </Routes>
+          <Toaster position="top-center" />
         </main>
         {/* Footer */}
         <Footer />

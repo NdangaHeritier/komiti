@@ -1,4 +1,4 @@
-import { ButtonLink } from "../components/global/UI/LinkBtn";
+import { ButtonLink } from "../components/global/UI/ButtonLink";
 
 export default function Home (){
     return (
