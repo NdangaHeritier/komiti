@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import LoginWithTeamCode from "./pages/LoginWithTeamCode";
 import { Toaster } from "react-hot-toast";
+import Contribute from "./pages/Contribute";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element= {<Dashboard />} />
+            <Route path="/contribute" element= {<Contribute />} />
             <Route path="/team-code-login" element={<LoginWithTeamCode />} />
           </Routes>
           <Toaster position="top-center" />

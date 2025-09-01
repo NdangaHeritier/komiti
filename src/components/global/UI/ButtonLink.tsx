@@ -18,7 +18,7 @@ export const ButtonLink = ({href="/", text, variant= "primary"}:LinkProps) => {
         blue: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 rounded-md"
     }
     return(
-        <Link to={href} className={`${colors[variant]} font-semibold duration-400 text-base px-5 py-3 flex items-center justify-center gap-2 focus:ring-2`}
+        <Link to={href} className={`${colors[variant]} font-semibold duration-400 text-base px-4 py-2 flex items-center justify-center gap-2 focus:ring-2 text-sm`}
         >
             {text}
         </Link>

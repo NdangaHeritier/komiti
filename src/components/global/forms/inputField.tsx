@@ -26,7 +26,7 @@ export const Input = ({name, type,value, id, placeholder, onChange}:InputTypes) 
             type={type}
             onChange={onChange}
             placeholder={placeholder ||  `Type ${name} here!`}
-            className="text-gray-700 px-5 py-3 border outline-0 border-gray-300 rounded-lg focus:bg-gray-200 focus:border-gray-100 focus:ring-2 focus:ring-gray-300 transition-all duration-300 w-full"
+            className="text-gray-700 px-4 py-2 border outline-0 border-gray-300 rounded-lg focus:bg-gray-200 focus:border-gray-100 focus:ring-2 focus:ring-gray-300 transition-all duration-300 w-full"
         />
     )
 }

@@ -6,7 +6,7 @@ import { ButtonLink } from "./UI/ButtonLink";
 export default function Navbar (){
     const {currentUser, signout}= useAuth();
     return (
-        <header className="bg-gray-100 p-5 flex items-center justify-between gap-5">
+        <header className="bg-gray-100 p-5 flex items-center justify-between gap-5 sticky top-0">
             <div className="logo inline-flex gap-3 justify-center items-center">
                 <span className="text-3xl border-3 border-gray-100 ring-3 ring-gray-300 rounded-md bg-gray-300 font-bold p-1 w-12 h-12 flex items-center justify-center">
                     K
@@ -19,29 +19,29 @@ export default function Navbar (){
                         <a href="#" className="text-gray-600 font-medium text-sm hover:underline">Home</a>
                     </li>
                     <li className="list-item px-3">
-                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline">About</a>
+                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline py-2">About</a>
                     </li>
                     <li className="list-item px-3">
-                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline">How It Works</a>
+                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline py-2">How It Works</a>
                     </li>
                     <li className="list-item px-3">
-                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline">Integrations</a>
+                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline py-2">Integrations</a>
                     </li>
                     <li className="list-item px-3">
-                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline">Team</a>
+                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline py-2">Team</a>
                     </li>
                     <li className="list-item px-3">
-                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline">Get Started</a>
+                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline py-2">Get Started</a>
                     </li>
                     <li className="list-item px-3">
-                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline">Docs</a>
+                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline py-2">Docs</a>
                     </li>
                     <li className="list-item px-3">
-                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline">?Help</a>
+                        <a href="#" className="text-gray-600 font-medium text-sm hover:underline py-2">?Help</a>
                     </li>
                 </ul>
                 <div className={`items-center justify-center gap-3 ${currentUser ? `flex`: `hidden`}`}>
-                    <span className="text-gray-600 font-medium text-sm">Hello, {currentUser?.email?.split("@")[0]}</span>
+                    <span className="text-gray-600 font-medium text-sm flex gap-1">Hello, <span>{currentUser?.email?.split("@")[0]}</span></span>
                     <FormButton type="button" text="Logout" variant="secondary" onClick={() => {
                         signout();
                         window.location.reload();
@@ -51,7 +51,7 @@ export default function Navbar (){
             <div className="ctas flex space-x-5 items-center justify-center ps-6">
                 {/* here is to check if a user has logged in to add a profile and other link else display login link instead */}
                 {currentUser ? (
-                    <ButtonLink text="Contribute" />
+                    <ButtonLink text="Contribute"  href="/contribute" />
                 ):(
                     <ButtonLink href="/login" text="Get Started" variant="green" />
                 )}

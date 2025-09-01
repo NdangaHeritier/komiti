@@ -1,41 +1,48 @@
-// A form button component reusable everywhere in my app to add a button
-// why added? to help you make one button styles that you can edit and change in one place for all over the app.
-// how to use. you just pass the button type and onClick if available for CTAs buttons and for form button you pass a submit type.
+import { Icon } from "../UI/Icon";
+import React from "react";
 
-import { Icon } from "../UI/Icon"
-
-
-// Declared a type of data allowed to be passed as a props to my button. to avoid error at time..
 type ButtonProps = {
-   type: "submit" | "reset" | "button" | undefined, //my button should receive one of this type as allowed or undefined value..
-    variant?: "primary" | "secondary" | "green" | "blue", // a color variant for user to choose what button color he like to use..
-    onClick?: () => void, // onClick handler for CTAs and other reusable button like a button which will open a contribution modal..
-    text: string
-    disabled?: boolean
-}
+  type?: "submit" | "reset" | "button"; // button type
+  variant?: "primary" | "secondary" | "green" | "blue"; // color variant
+  onClick?: () => void; // click handler
+  text?: string; // text label
+  children?: React.ReactNode; // optional children (icons, JSX)
+  disabled?: boolean; // disabled state
+};
 
-export const FormButton = (
-    {type="button", text, variant= "primary", onClick, disabled=false}:ButtonProps // Assign the type of props you want to receive to the props you'll receive so it checks whether they match as decalred.
-) => {
+export const FormButton: React.FC<ButtonProps> = ({
+  type = "button",
+  text,
+  variant = "primary",
+  onClick,
+  disabled = false,
+  children,
+}) => {
+  const colors = {
+    primary: "bg-gray-900 text-gray-100 hover:bg-gray-950 focus:ring-gray-700 rounded-md",
+    secondary:
+      "bg-transparent text-blue-600 hover:bg-blue-200 focus:ring-blue-400 rounded-full",
+    green: "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500 rounded-md",
+    blue: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 rounded-md",
+  };
 
-    // declare the color variants classes for user to choose adn then apply related variant classes to button className..
-    const colors = {
-        primary: "bg-gray-900 text-gray-100 hover:bg-gray-950 focus:ring-gray-700 rounded-md",
-        secondary: "bg-transparent text-blue-600 hover:bg-blue-200 focus:ring-blue-400 rounded-full",
-        green: "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500 rounded-md",
-        blue: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 rounded-md"
-    }
-    return(
-        // Pass all the props to the button so it changes when props changes too.
-        // example a user declared <FormButton type="button" variant="blue" onClick={() => console.log("button clicked!")} />
-        // in another component. the FormButton will apply the variant classes for blue color and type as requested then return this button in-place.
-        <button
-            type={type}
-            className={`${colors[variant]} ${disabled ? `opacity-80 cursor-not-allowed`: `cursor-pointer`} font-semibold duration-400 text-base px-5 py-3 flex items-center justify-center gap-2 focus:ring-2 w-full`}
-            onClick={onClick}
-            disabled={disabled}
-        >
-            {disabled ? <Icon name="Loader" size={20} className="animate-spin" /> : text}
-        </button>
-    )
-}
+  return (
+    <button
+      type={type}
+      className={`${colors[variant]} ${
+        disabled ? "opacity-80 cursor-not-allowed" : "cursor-pointer"
+      } text-md font-semibold duration-400 text-base px-4 py-2 flex items-center justify-center gap-2 focus:ring-2 w-full`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {disabled ? (
+        <Icon name="Loader" size={20} className="animate-spin" />
+      ) : children ? (
+        children
+      ) : (
+        text
+      )}
+    </button>
+  );
+};
+// Note: This button is used in forms and other places where a button is needed.
