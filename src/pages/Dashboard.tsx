@@ -1,6 +1,23 @@
+import { useNavigate } from "react-router-dom";
 import { Icon } from "../components/global/UI/Icon";
+import { useAuth } from "../context/useAuth";
+import toast from "react-hot-toast";
 
 export default function Dashboard () {
+
+    const navigate = useNavigate();
+    const {currentUser} = useAuth();
+
+    if (!currentUser) {
+        toast.error("You must be logged in to access the dashboard");
+        navigate("/login");
+        return null;
+    }
+    if(currentUser){
+        console.log(currentUser);
+        navigate("/contribute");
+        return null;
+    }
     return (
         <section className="p-5 bg-gray-50">
             <div className="user-details p-10 rounded-xl">
