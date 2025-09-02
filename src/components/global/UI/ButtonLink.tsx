@@ -7,18 +7,24 @@ import { Link } from "react-router-dom"
 type LinkProps = {
     href?: string,
     variant?: "primary" | "secondary" | "green" | "blue",
-    text: string
+    text: string,
+    size?: "sm" | "md" | "lg"
 }
 
-export const ButtonLink = ({href="/", text, variant= "primary"}:LinkProps) => {
+export const ButtonLink = ({href="/", text, variant= "primary", size="lg"}:LinkProps) => {
     const colors = {
         primary: "bg-gray-900 text-gray-100 hover:bg-gray-950 focus:ring-gray-700 rounded-md",
-        secondary: "bg-transparent text-blue-600 hover:bg-blue-200 focus:ring-blue-400 rounded-full",
+        secondary: "bg-transparent text-gray-700 hover:bg-gray-500/10 focus:ring-gray-400 rounded-md border border-gray-300",
         green: "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500 rounded-md",
         blue: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 rounded-md"
     }
+    const sizes = {
+        sm: "text-xs px-2 py-1",
+        md: "text-sm px-3 py-2",
+        lg: "text-base px-4 py-2"
+    }
     return(
-        <Link to={href} className={`${colors[variant]} font-semibold duration-400 text-base px-4 py-2 flex items-center justify-center gap-2 focus:ring-2 text-sm`}
+        <Link to={href} className={`${colors[variant]} font-semibold duration-400 ${sizes[size]} flex items-center justify-center gap-2 focus:ring-2 text-sm`}
         >
             {text}
         </Link>
