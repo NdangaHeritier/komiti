@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../components/global/forms/inputField";
 import { FormButton } from "../components/global/forms/Button";
 import { useNavigate } from "react-router-dom";
@@ -14,16 +14,18 @@ export default function Login () {
     const navigate = useNavigate();
     const { currentTeam, signin, currentUser } = useAuth();
 
-    // if user is already logged in redirect to dashboard
-    if (currentUser) {
-        navigate("/dashboard");
-    }
+    useEffect(()=>{
+        // if user is already logged in redirect to dashboard
+        if (currentUser) {
+            navigate("/dashboard");
+        }
 
-    // check if there's active team set in context if not redirect to team code login page.
-    
-    if (!currentTeam) {
-        navigate("/team-code-login");
-    }
+        // check if there's active team set in context if not redirect to team code login page.
+        
+        if (!currentTeam) {
+            navigate("/team-code-login");
+        }
+    }, [navigate, currentUser]);
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -54,25 +56,32 @@ export default function Login () {
         }
     }
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 w-full p-10">
-            <section className="login-div max-w-96 min-w-96 grid grid-cols-1 gap-5">
-                {/* Here is a simple implemented login header logo on card. */}
-                <div className="header flex items-center justify-start gap-5">
-                    <span className="text-4xl border-3 border-gray-100 ring-3 ring-gray-300 rounded-md bg-gray-300 font-bold p-1 w-15 h-15 flex items-center justify-center">
-                        K
-                    </span>
-                    <div className="text-base text-gray-700">
-                        <h4 className="font-bold text-4xl">Welcome to {currentTeam?.name}</h4>
-                        <p className="font-medium">Signin to start manage your contributions</p>
+        <div className="" style={{backgroundImage: `url('/${currentTeam?.image || 'team_avatar.svg'}')`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
+            <div className="h-full w-full bg-gradient-to-b from-gray-100 to-gray-100/30 min-h-screen flex items-center justify-center w-full p-2 sm:p-10">
+                <section className={`login-div max-w-full sm:max-w-1/2 grid grid-cols-1 gap-5 bg-white shadow-md rounded-2xl p-10`}>
+                    {/* Here is a simple implemented login header logo on card. */}
+                    <div className="header flex items-start sm:items-center justify-start max-sm:flex-col gap-5">
+                        <div className="thumbnail flex items-center justify-center">
+                            <div className="w-14 h-14 flex items-center justify-center bg-gray-500 rounded-md p-0.5 overflow-hidden">
+                                <img src={`/${currentTeam?.image || 'team_avatar.svg'}`} alt="" className="w-full h-full object-fit" />
+                            </div>
+                        </div>
+                        <div className="text-base text-gray-700">
+                            <h4 className="text-xl text-gray-500">Welcome back to,</h4>
+                            <h2 className="font-extrabold text-4xl capitalize">{currentTeam?.name || "No Team"}</h2>
+                        </div>
                     </div>
-                </div>
-                <form onSubmit={handleSubmit} method="post" className="grid grid-cols-1 gap-5 w-full">
-                    {/* Adding form elements using reusable components for inputs, textarea, ... for easy reusable and one update and handle all. */}
-                    <Input name="email" type="email" onChange={handleChange} value={authInfo.email}  />
-                    <Input name="password" type="password" onChange={handleChange} value={authInfo.password} />
-                    <FormButton text="Login" type="submit" disabled={loading} />
-                </form>
-            </section>
+                    <p className="font-medium text-xs text-gray-500 p-2 text-center border-b border-t border-gray-200">
+                        Signin to start manage your contributions.
+                    </p>
+                    <form onSubmit={handleSubmit} method="post" className="grid grid-cols-1 gap-5 w-full py-5">
+                        {/* Adding form elements using reusable components for inputs, textarea, ... for easy reusable and one update and handle all. */}
+                        <Input name="email" type="email" onChange={handleChange} value={authInfo.email}  />
+                        <Input name="password" type="password" onChange={handleChange} value={authInfo.password} />
+                        <FormButton text="Login" type="submit" disabled={loading} />
+                    </form>
+                </section>
+            </div>
         </div>
     )
 }

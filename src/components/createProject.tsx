@@ -1,6 +1,6 @@
 import { FormButton } from "./global/forms/Button";
 import { ButtonLink } from "./global/UI/ButtonLink"
-import Modal from "./global/forms/modal";
+import Modal from "./global/forms/create_project_modal";
 import { useState } from "react";
 import { db } from "../utils/db";
 import { addDoc, collection } from "firebase/firestore";

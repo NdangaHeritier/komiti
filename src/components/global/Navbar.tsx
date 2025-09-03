@@ -14,7 +14,7 @@ export default function Navbar (){
                 <div className="text-3xl font-extrabold text-gray-600">KOMITI</div>
             </div>
             <div className="links flex items-center flex-1 justify-end">
-                <ul className={`${currentUser ? `hidden`: `flex`} list-none items-center space-x-4`}>
+                <ul className={`${currentUser ? `hidden`: `flex`} list-none items-center space-x-4 max-sm:hidden`}>
                     <li className="list-item px-3">
                         <a href="#" className="text-gray-600 font-medium text-sm hover:underline">Home</a>
                     </li>

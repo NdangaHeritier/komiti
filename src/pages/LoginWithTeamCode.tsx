@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormButton } from "../components/global/forms/Button";
 import { Input } from "../components/global/forms/inputField";
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -14,10 +14,12 @@ export default function LoginWithTeamCode (){
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
-    // // if team is already set redirect to login page
-    // if (currentTeam) {
-    //     navigate("/login");
-    // }
+    useEffect(()=>{
+        // if user is already logged in redirect to dashboard
+        if (currentTeam) {
+            navigate("/login");
+        }
+    }, [navigate, currentTeam]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -37,6 +39,7 @@ export default function LoginWithTeamCode (){
                 return;
             }
             setCurrentTeam(teamSnapshot.docs[0].data());
+            localStorage.setItem("currentTeam", JSON.stringify(teamSnapshot.docs[0].data()));
             toast.success("Team code accepted, please login");
             navigate("/login");
             console.log("Team Code submitted:", teamCode);

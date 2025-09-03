@@ -10,8 +10,8 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState(null);
-    const [currentTeam, setCurrentTeam] = useState(null);
+    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("currentUser")) || null);
+    const [currentTeam, setCurrentTeam] = useState(JSON.parse(localStorage.getItem("currentTeam")) || null);
     const [loading, setLoading] = useState(true);
     
     const signup = (email, password) => {
@@ -22,6 +22,9 @@ export const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password);
     }
     const signout = () => {
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("currentTeam");
+        setCurrentTeam(null);
         return signOut(auth);
     }
 
@@ -32,6 +35,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
+            localStorage.setItem("currentUser", JSON.stringify(user));
             setLoading(false);
         });
 
