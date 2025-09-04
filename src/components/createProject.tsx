@@ -14,7 +14,7 @@ export default function CreateProject() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
       
-  const handleCreateProject= async (data: { projectName: string; description: string }) => {
+  const handleCreateProject= async (data: { projectName: string; description: string, githubLink: string }) => {
 
     if (!currentUser) {
       toast.error("You must be logged in to create a project");
@@ -26,15 +26,30 @@ export default function CreateProject() {
       return;
     }
     try {
-    await addDoc(collection(db, "projects"), {
-        name: data.projectName,
-        description: data.description,
-        createdBy: currentUser?.uid,
-        createdOn: new Date(),
-        contributors: [currentUser?.uid],
-        repoLink: "",
-        branches: ["main"],
+    const addProject = await addDoc(collection(db, "projects"), {
+      name: data.projectName,
+      description: data.description,
+      createdBy: currentUser?.uid,
+      createdOn: new Date(),
+      contributors: [currentUser?.uid],
+      repoLink: "",
+      branches: ["main"],
+      status: "open"
     });
+    const projectId = addProject.id;
+
+    if (addProject) {
+      await addDoc(collection(db, "Commits"), {
+        commitId: "--",
+        projectId: projectId,
+        title: currentUser?.displayName + "created the project",
+        message: data.projectName + " created successfully by " + currentUser?.displayName || currentUser?.email + "on " + new Date().toLocaleDateString(),
+        createdOn: new Date(),
+        userId: currentUser?.uid,
+        branch: "main",
+        status: "verified"
+      });
+    }
     toast.success("Project created successfully");
     
     } catch (error) {

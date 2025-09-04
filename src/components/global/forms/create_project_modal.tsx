@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Input } from "./inputField";
 import {FormButton} from "./Button";
 import { X } from "lucide-react";
+import { TextArea } from "./textAreafield";
 type ModalProps = {
     open: boolean,
     onClose: () => void,
-    onSubmit: (data: {projectName: string, description: string}) => void;
+    onSubmit: (data: {projectName: string, description: string, githubLink: string}) => void;
 
 
 };
@@ -15,13 +16,14 @@ export default function Modal({ open, onClose, onSubmit }: ModalProps) {
 
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
+  const [githubLink, setLink] = useState("");
    const [loading, setLoading] = useState(false);
   if (!open) 
     return null;
   const handleSubmit = (e: React.FormEvent) => {
     setLoading(true);
     e.preventDefault();
-    onSubmit({projectName, description});
+    onSubmit({projectName, description, githubLink});
     setProjectName("");
     setDescription("");
     onClose();
@@ -40,15 +42,19 @@ export default function Modal({ open, onClose, onSubmit }: ModalProps) {
                 </button>
                 </div>
                 
-                <form className="w-full max-w-sm my-5 mx-auto" onSubmit={handleSubmit}>
+                <form className="w-full my-5" onSubmit={handleSubmit}>
                     <div className="flex flex-col gap-4">
-                        <label className="flex flex-col">
-                            <span className="text-sm font-medium text-zinc-700">Project Name</span>
-                            <Input type="text" name="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
+                        <label className="flex flex-col gap-1">
+                            <span className="text-xs font-medium text-zinc-700">Project Name</span>
+                            <Input type="text" name="projectName" placeholder="ex: formo Mech" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
                         </label>
-                        <label className="flex flex-col">
-                            <span className="text-sm font-medium text-zinc-700">Description</span>
-                            <Input type="text" name="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                        <label className="flex flex-col gap-1">
+                            <span className="text-xs font-medium text-zinc-700">Description</span>
+                            <TextArea name="description" placeholder="ex: The project is nice for Ballon Dal." value={description} onChange={(e) => setDescription(e?.target?.value ?? "")} />
+                        </label>
+                        <label className="flex flex-col gap-1">
+                            <span className="text-xs font-medium text-zinc-700">GitHub Link</span>
+                            <Input type="text" name="GitHubLink" placeholder="Paste Github Link" value={githubLink} onChange={(e) => setLink(e.target.value)} />
                         </label>
                     </div>
                     <div className="my-6">
