@@ -20,8 +20,8 @@ export const TextArea = ({ // assign the type to all props at time..
     id,
     value,
     placeholder,
-    cols=10,
-    rows=14,
+    cols=5,
+    rows=5,
     onChange,
 }:FieldTypes) => {
     return (
