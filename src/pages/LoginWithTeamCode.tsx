@@ -38,8 +38,9 @@ export default function LoginWithTeamCode (){
                 console.log("No team found with code:", teamCode);
                 return;
             }
-            setCurrentTeam(teamSnapshot.docs[0].data());
-            localStorage.setItem("currentTeam", JSON.stringify(teamSnapshot.docs[0].data()));
+            let team = {id: teamSnapshot.docs[0].id, ...teamSnapshot.docs[0].data()}
+            setCurrentTeam(team);
+            localStorage.setItem("currentTeam", JSON.stringify(team));
             toast.success("Team code accepted, please login");
             navigate("/login");
             console.log("Team Code submitted:", teamCode);

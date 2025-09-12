@@ -11,7 +11,7 @@ type FieldTypes = {
     id?: string,
     cols?: number,
     rows?: number,
-    onChange: (e?: React.ChangeEvent<HTMLTextAreaElement>) => void
+    onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
 
 }
 
@@ -29,7 +29,7 @@ export const TextArea = ({ // assign the type to all props at time..
             name={name}
             id={id}
             value={value}
-            className=""
+            className="text-gray-700 px-4 py-2 border outline-0 border-gray-300 rounded-lg focus:bg-gray-200 focus:border-gray-100 focus:ring-2 focus:ring-gray-300 transition-all duration-300 w-full"
             placeholder={placeholder || `Type ${name} Here!`}
             cols={cols}
             rows={rows}

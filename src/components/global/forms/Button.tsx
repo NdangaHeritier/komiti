@@ -21,7 +21,7 @@ export const FormButton: React.FC<ButtonProps> = ({
   const colors = {
     primary: "bg-gray-900 text-gray-100 hover:bg-gray-950 focus:ring-gray-700 rounded-md",
     secondary:
-      "bg-transparent text-blue-600 hover:bg-blue-200 focus:ring-blue-400 rounded-full",
+      "bg-transparent text-gray-700 hover:bg-black/5 focus:ring-gray-400 rounded-md",
     green: "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500 rounded-md",
     blue: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 rounded-md",
   };
@@ -31,7 +31,7 @@ export const FormButton: React.FC<ButtonProps> = ({
       type={type}
       className={`${colors[variant]} ${
         disabled ? "opacity-80 cursor-not-allowed" : "cursor-pointer"
-      } text-md font-semibold duration-400 text-base px-4 py-2 flex items-center justify-center gap-2 focus:ring-2 w-full`}
+      } text-sm font-semibold duration-400 text-base px-4 py-2 flex items-center justify-center gap-2 focus:ring-2 w-full`}
       onClick={onClick}
       disabled={disabled}
     >
