@@ -23,7 +23,7 @@ export default function CreateProject({ownedProjects, loading, afterCreate}: {ow
       navigate("/login");
       return;
     }
-    if (!data.projectName || !data.description) {
+    if (!data.projectName || !data.repoLink) {
       toast.error("Please fill in all fields");
       return;
     }
@@ -40,7 +40,8 @@ export default function CreateProject({ownedProjects, loading, afterCreate}: {ow
     });
     if (newProject){
       await addDoc(collection(db, "Commits"), {
-        commitId: '',
+        commitId: "CRT"+data.projectName.substring(0,2).toUpperCase(),
+
         projectId: newProject.id,
         branch: "Main",
         title: `Created ${data.projectName} project.`,
@@ -48,6 +49,7 @@ export default function CreateProject({ownedProjects, loading, afterCreate}: {ow
         status: "verified",
         user: {uid: currentUser.uid, name: currentUser?.displayName || "admin"},
         createdOn: new Date(),
+        verificationLink: data.repoLink
       });
     }
     toast.success("Project created successfully");
@@ -80,21 +82,21 @@ export default function CreateProject({ownedProjects, loading, afterCreate}: {ow
 
               </div>
                 {loading && (
-                  <div className="w-full rounded-md bg-black/6 animate-pulse border-gray-200 min-h-80 flex items-center justify-center">
+                  <div className="w-full rounded bg-white border border-gray-200 min-h-80 flex items-center justify-center">
                     <Icon name="Loader2" strokeWidth={2} className="w-6 h-6 text-gray-600 animate-spin" />
                   </div>
                 )}
                 {/* here is to map through the projects that has been commited */}
-                <div className={`${loading ? `hidden` : ``} project-details border border-zinc-200 rounded-lg overflow-hidden shadow-sm bg-gray-200 grid grid-cols-1 gap-[1px] w-full list-none`}>
+                <div className={`${loading ? `hidden` : ``} project-details border border-zinc-200 rounded overflow-hidden shadow-xs bg-gray-200 grid grid-cols-1 gap-[1px] w-full list-none`}>
                   {projects.length > 0 ? (
                     projects.map((project, index) => (
-                      <li key={index} className="grid grid-cols-1 gap-2 p-5 bg-white">
+                      <li key={index} className="grid grid-cols-1 gap-2 px-5 py-4 bg-white">
                         <div className="flex justify-between items-center">
-                            <Link to="/project/go-ship" className="text-base font-semibold text-zinc-800 hover:underline">
+                            <Link to="/project/go-ship" className="text-base font-semibold text-zinc-800 capitalize">
                               <h2 className="font-semibold text-zinc-800">{project.name}</h2>
                             </Link>
-                            <ButtonLink href="/project-details" variant="secondary" >
-                              <Icon name="Settings" />
+                            <ButtonLink href={`/${currentTeam?.name.replaceAll(" ", "_")}/${project.id}`} variant="secondary" size="sm" >
+                              <Icon name="Settings" size={17} strokeWidth={2} />
                             </ButtonLink>
                         </div>
         
@@ -120,7 +122,7 @@ export default function CreateProject({ownedProjects, loading, afterCreate}: {ow
                           <p className=" flex gap-2 items-center justify-start gap-1 text-gray-600">
                             <Icon name="GitBranch" className="w-3 h-3" strokeWidth={2}/>
                             last commited {daysAgo(project.latestCommit?.createdOn)} days ago on
-                            <span className="bg-gray-100 px-2 py-0.5 rounded-full hover:bg-gray-200 flex items-center gap-1">
+                            <span className="bg-gray-100 border border-gray-200 font-mono px-2 py-0.5 rounded-full hover:bg-gray-200 flex items-center gap-1">
                               <Icon name="GitBranch" className="w-3 h-3" strokeWidth={3}/>
                               {project.latestCommit?.branch}
                             </span>
@@ -130,7 +132,7 @@ export default function CreateProject({ownedProjects, loading, afterCreate}: {ow
                       </li>
                     ))
                   ):(
-                    <p className="text-sm p-10 bg-white m-0.5 rounded-md">No projects committed found!</p>
+                    <p className="text-sm p-5 min-h-80 bg-white rounded-md text-gray-600 font-mono">No projects committed found!</p>
                   )}
                 </div>
         </div>

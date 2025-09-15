@@ -1,5 +1,4 @@
 
-import { ButtonLink } from "../components/global/UI/ButtonLink"
 import CreateProject from "../components/createProject";
 import { Icon } from "../components/global/UI/Icon";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,6 +9,8 @@ import { db } from "../utils/db";
 import toast from "react-hot-toast";
 import daysAgo from "../utils/fetchDays";
 import type { Commit, Project } from "../utils/mainTypes";
+import { FormButton } from "../components/global/forms/Button";
+import RecentCommitsCard from "../components/contributePage/recentCommitsCard";
 
 export default function Contribute() {
 
@@ -99,57 +100,67 @@ export default function Contribute() {
           Recent Commited Projects
         </h1>
         {loading && (
-          <div className="w-full rounded-md bg-black/6 animate-pulse border-gray-200 min-h-80 flex items-center justify-center">
-            <Icon name="Loader2" strokeWidth={2} className="w-6 h-6 text-gray-600 animate-spin" />
+          <div className="flex items-start gap-5">
+            <div className="flex-2/3 rounded bg-white border border-gray-200 min-h-80 flex items-center justify-center">
+              <Icon name="Loader2" strokeWidth={2} className="w-6 h-6 text-gray-600 animate-spin" />
+            </div>
+            <div className="h-full flex-1/3 bg-white flex items-center justify-center rounded border border-gray-200 min-h-80">
+              <Icon name="Loader2" strokeWidth={2} className="w-6 h-6 text-gray-600 animate-spin" />
+            </div>
           </div>
         )}
         {/* here is to map through the projects that has been commited */}
-        <div className={`${loading ? `hidden` : ``} project-details border border-zinc-200 rounded-lg overflow-hidden shadow-sm bg-gray-200 grid grid-cols-1 gap-[1px] w-full list-none`}>
-          {projects.length > 0 ? (
-            projects.map((project, index) => (
-              <li key={index} className="grid grid-cols-1 gap-2 p-5 bg-white">
-                <div className="flex justify-between items-center">
-                    <Link to="/project/go-ship" className="text-base font-semibold text-zinc-800 hover:underline">
-                      <h2 className="font-semibold text-zinc-800">{project.name}</h2>
-                    </Link>
-                    <ButtonLink href="/project-details" variant="primary" text="Open Project" />
-                </div>
+        <div className="flex items-start gap-7">
+          <div className={`${loading ? `hidden` : ``} flex-3/5 project-details border border-zinc-200 rounded overflow-hidden shadow-xs bg-gray-200 grid grid-cols-1 gap-[1px] w-full list-none`}>
+            {projects.length > 0 ? (
+              projects.map((project, index) => (
+                <Link to={`/project/${project.id}/overview/`} key={index} className="grid grid-cols-1 gap-2 px-5 py-3 bg-white hover:bg-gray-50 duration-300">
+                  <div className="flex justify-between items-center">
+                      <Link to="/project/go-ship" className="text-base font-normal capitalize text-zinc-800 hover:underline">
+                        <h2 className="font-semibold text-zinc-800">{project.name}</h2>
+                      </Link>
+                      <FormButton type="button" variant="secondary" size="sm">
+                        <Icon name="MoreHorizontal" size={17} strokeWidth={2} />
+                      </FormButton>
+                  </div>
 
-                {/* github repo link */}
-                <p className="text-sm text-gray-700">
-                  <a href={project.repoLink} className="py-0.5 px-2 inline-flex items-center justify-center rounded-full hover:bg-gray-200 bg-gray-100 text-xs" target="_blank" rel="noopener noreferrer">
-                    <Icon name="Github" className="w-3 h-3 inline-block mr-1" strokeWidth={3}/>
-                    <span className="">{project.repoLink.substring(7)}</span>
-                  </a>
-                </p>
-
-                <div className="flex gap-10 text-xs">
-                  <p className=" flex gap-2 items-center justify-start gap-1 text-gray-600">
-                    <Icon name="GitCommit" className="w-4 h-4" strokeWidth={2}/>
-                    {project?.totalCommits || "none"}
-                    <span>Registred commit(s)</span>
+                  {/* github repo link */}
+                  <p className="text-sm text-gray-700">
+                    <a href={project.repoLink} className="py-0.5 px-2 inline-flex items-center justify-center rounded-full border border-gray-200 hover:bg-gray-200 bg-gray-100 text-xs" target="_blank" rel="noopener noreferrer">
+                      <Icon name="Github" className="w-3 h-3 inline-block mr-1" strokeWidth={3}/>
+                      <span className="">{project.repoLink.substring(7)}</span>
+                    </a>
                   </p>
-                  <p className=" flex gap-2 items-center justify-start gap-1 text-gray-600">
-                    <Icon name="Users" className="w-3 h-3" strokeWidth={2}/>
-                    {project?.contributors.length}
-                    <span>Contributor(s)</span>
-                  </p> 
-                  <p className=" flex gap-2 items-center justify-start gap-1 text-gray-600">
-                    <Icon name="GitBranch" className="w-3 h-3" strokeWidth={2}/>
-                    last commited {daysAgo(project.latestCommit?.createdOn)} days ago on
-                    <span className="bg-gray-100 px-2 py-0.5 rounded-full hover:bg-gray-200 flex items-center gap-1">
-                      <Icon name="GitBranch" className="w-3 h-3" strokeWidth={3}/>
-                      {project.latestCommit?.branch}
-                    </span>
-                  </p>                          
-                </div>
-                
-              </li>
-            ))
-          ):(
-            <p className="text-sm p-10 bg-white m-0.5 rounded-md">No projects committed found!</p>
-          )}
-        </div>
+
+                  <div className="flex gap-10 text-xs">
+                    <p className=" flex gap-2 items-center justify-start gap-1 text-gray-600">
+                      <Icon name="GitCommit" className="w-4 h-4" strokeWidth={2}/>
+                      {project?.totalCommits || "none"}
+                      <span>Registred commit(s)</span>
+                    </p>
+                    <p className=" flex gap-2 items-center justify-start gap-1 text-gray-600">
+                      <Icon name="Users" className="w-3 h-3" strokeWidth={2}/>
+                      {project?.contributors.length}
+                      <span>Contributor(s)</span>
+                    </p> 
+                    <p className=" flex gap-2 items-center justify-start gap-1 text-gray-600">
+                      <Icon name="GitBranch" className="w-3 h-3" strokeWidth={2}/>
+                      last commited {daysAgo(project.latestCommit?.createdOn)} days ago on
+                      <span className="bg-gray-100 border border-gray-200 px-2 py-0.5 rounded-full hover:bg-gray-200 flex items-center gap-1">
+                        <Icon name="GitBranch" className="w-3 h-3" strokeWidth={3}/>
+                        {project.latestCommit?.branch}
+                      </span>
+                    </p>                          
+                  </div>
+                  
+                </Link>
+              ))
+            ):(
+              <p className="text-sm p-5 min-h-80 bg-white rounded-md text-gray-600 font-mono">No projects found!</p>
+            )}
+          </div>
+          {!loading && <RecentCommitsCard />}
+        </div>        
         <CreateProject afterCreate={fetchProjects} loading={loading} ownedProjects={
           projects.filter(
             project => project.createdBy === currentUser.uid

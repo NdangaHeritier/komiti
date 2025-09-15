@@ -8,6 +8,7 @@ type ButtonProps = {
   text?: string; // text label
   children?: React.ReactNode; // optional children (icons, JSX)
   disabled?: boolean; // disabled state
+  size?: "md" | "sm" | "lg";
 };
 
 export const FormButton: React.FC<ButtonProps> = ({
@@ -17,6 +18,7 @@ export const FormButton: React.FC<ButtonProps> = ({
   onClick,
   disabled = false,
   children,
+  size = "md"
 }) => {
   const colors = {
     primary: "bg-gray-900 text-gray-100 hover:bg-gray-950 focus:ring-gray-700 rounded-md",
@@ -26,12 +28,18 @@ export const FormButton: React.FC<ButtonProps> = ({
     blue: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 rounded-md",
   };
 
+  const sizes = {
+      sm: "text-xs px-2 py-1",
+      md: "text-sm px-3 py-2",
+      lg: "text-base px-4 py-2"
+  }
+
   return (
     <button
       type={type}
       className={`${colors[variant]} ${
         disabled ? "opacity-80 cursor-not-allowed" : "cursor-pointer"
-      } text-sm font-semibold duration-400 text-base px-4 py-2 flex items-center justify-center gap-2 focus:ring-2 w-full`}
+      } text-sm font-semibold duration-400 ${sizes[size]} flex items-center justify-center gap-2 focus:ring-2`}
       onClick={onClick}
       disabled={disabled}
     >

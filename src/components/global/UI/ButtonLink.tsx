@@ -15,7 +15,7 @@ type LinkProps = {
 export const ButtonLink = ({href="/", text, variant= "primary", size="lg", children}:LinkProps) => {
     const colors = {
         primary: "bg-gray-900 text-gray-100 hover:bg-gray-950 focus:ring-gray-700 rounded-md",
-        secondary: "bg-transparent text-gray-700 hover:bg-gray-500/10 focus:ring-gray-400 rounded-md border border-gray-300",
+        secondary: "bg-transparent text-gray-700 hover:bg-gray-500/10 focus:ring-gray-400 rounded-md",
         green: "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500 rounded-md",
         blue: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 rounded-md"
     }
@@ -28,7 +28,6 @@ export const ButtonLink = ({href="/", text, variant= "primary", size="lg", child
         <Link to={href} className={`${colors[variant]} font-semibold duration-400 ${sizes[size]} flex items-center justify-center gap-2 focus:ring-2 text-sm`}
         >
             {children ? children : text}
-            {text}
         </Link>
     )
 }

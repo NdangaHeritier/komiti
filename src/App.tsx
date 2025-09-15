@@ -7,6 +7,8 @@ import Dashboard from "./pages/Dashboard";
 import LoginWithTeamCode from "./pages/LoginWithTeamCode";
 import { Toaster } from "react-hot-toast";
 import Contribute from "./pages/Contribute";
+import ManageProject from "./pages/manage_project";
+import Page404 from "./pages/404page";
 
 function App() {
   return (
@@ -16,13 +18,15 @@ function App() {
         {/* Navbar */}
         <Navbar />
         {/* Main section body of app */}
-        <main className="min-h-screen bg-gray-100">
+        <main className="min-h-screen bg-gray-50">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element= {<Dashboard />} />
             <Route path="/contribute" element= {<Contribute />} />
+            <Route path="/:team_name/:projectId" element= {<ManageProject />} />
             <Route path="/team-code-login" element={<LoginWithTeamCode />} />
+            <Route path="*" element={<Page404 />} />
           </Routes>
           <Toaster position="top-center" />
         </main>
