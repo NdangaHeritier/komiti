@@ -8,11 +8,6 @@ import toast from "react-hot-toast";
 import { Icon } from "../components/global/UI/Icon";
 import daysAgo from "../utils/fetchDays";
 
-/**
- * NOTE:
- * - commit.createdOn is converted here to JS Date (toDate()).
- * - Adjust imports/paths to match your project structure.
- */
 
 /* ---------- Small UI helpers ---------- */
 const Badge = ({ children, tone = "gray" }: { children: React.ReactNode; tone?: "gray" | "green" | "yellow" | "red" }) => {
@@ -30,7 +25,7 @@ const Badge = ({ children, tone = "gray" }: { children: React.ReactNode; tone?: 
 };
 
 const StatCard = ({ label, value, icon }: { label: string; value: string | number; icon?: React.ReactNode }) => (
-  <div className="bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-3 shadow-sm">
+  <div className="bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-3 shadow-xs">
     <div className="w-10 h-10 rounded bg-gray-50 flex items-center justify-center text-gray-600">
       {icon}
     </div>
@@ -70,13 +65,12 @@ const Tabs = ({ active, onChange }: { active: TabKey; onChange: (t: TabKey) => v
 /* ---------- Main ManageProject Page ---------- */
 export default function ManageProjectPage() {
   const { projectId } = useParams<{ projectId: string }>();
-  const { currentUser } = useAuth();
+  const { currentUser, currentTeam } = useAuth();
   const navigate = useNavigate();
 
   const [project, setProject] = useState<Project | null>(null);
   const [commits, setCommits] = useState<Commit[]>([]);
   const [loadingProject, setLoadingProject] = useState(true);
-  const [loadingCommits, setLoadingCommits] = useState(true);
   const [tab, setTab] = useState<TabKey>("overview");
 
   // fetch project
@@ -123,7 +117,7 @@ export default function ManageProjectPage() {
   useEffect(() => {
     if (!projectId) return;
     const fetchCommits = async () => {
-      setLoadingCommits(true);
+      setLoadingProject(true);
       try {
         const commitsRef = collection(db, "Commits");
         const q = query(commitsRef, where("projectId", "==", projectId), orderBy("createdOn", "desc"));
@@ -138,7 +132,7 @@ export default function ManageProjectPage() {
         console.error(err);
         toast.error("Failed to load commits");
       } finally {
-        setLoadingCommits(false);
+        setLoadingProject(false);
       }
     };
     fetchCommits();
@@ -222,7 +216,7 @@ export default function ManageProjectPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left column: Overview stats & contributors */}
           <aside className="col-span-1 space-y-4">
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-xs">
               <h3 className="text-sm text-gray-600 mb-3">Project stats</h3>
               <div className="grid grid-cols-2 gap-3">
                 <StatCard label="Commits" value={analytics.totalCommits} icon={<Icon name="GitCommit" />} />
@@ -232,7 +226,7 @@ export default function ManageProjectPage() {
               </div>
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-xs">
               <h3 className="text-sm text-gray-600 mb-3">Top contributors (30d)</h3>
               <div className="space-y-2">
                 {topContributors.length === 0 && <div className="text-sm text-gray-500">No contributions this month.</div>}
@@ -255,14 +249,14 @@ export default function ManageProjectPage() {
           {/* Right column: Tab content */}
           <main className="col-span-1 lg:col-span-2 space-y-4">
             {/* Content wrapper card */}
-            <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+            <div className="bg-white border border-gray-200 rounded-lg shadow-xs overflow-hidden">
               {/* Tab header (mobile-visible as well) */}
               <div className="p-4 border-b border-gray-100 flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <h2 className="text-sm font-semibold text-zinc-800 capitalize">{tab}</h2>
                   <div className="text-xs text-gray-500">Project: {project.name}</div>
                 </div>
-                <div className="text-sm text-gray-500">{project.team}</div>
+                <div className="text-sm text-gray-500">{currentTeam.name}</div>
               </div>
 
               <div className="p-4">
@@ -287,7 +281,8 @@ export default function ManageProjectPage() {
 }
 
 /* ---------- OverviewTab Component ---------- */
-function OverviewTab({ project, commits, recent8, analytics }: { project: Project; commits: Commit[]; recent8: Commit[]; analytics: any }) {
+function OverviewTab({ project, recent8 }: { project: Project; commits: Commit[]; recent8: Commit[]; analytics: any }) {
+  const {currentTeam} = useAuth();
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -296,7 +291,7 @@ function OverviewTab({ project, commits, recent8, analytics }: { project: Projec
           <div className="mt-3 text-sm text-gray-700">
             <p><span className="font-semibold">Repo:</span> <a className="text-blue-600 hover:underline" href={project.repoLink}>{project.repoLink}</a></p>
             <p><span className="font-semibold">Created:</span> {project.createdOn ? new Date(project.createdOn).toLocaleString(): "-"}</p>
-            <p><span className="font-semibold">Team:</span> {project.team}</p>
+            <p><span className="font-semibold">Team:</span> {currentTeam.name}</p>
           </div>
         </div>
 
@@ -337,7 +332,7 @@ function OverviewTab({ project, commits, recent8, analytics }: { project: Projec
 }
 
 /* ---------- ContributionsTab Component ---------- */
-function ContributionsTab({ commits, projectName }: { commits: Commit[]; projectName: string }) {
+function ContributionsTab({ commits }: { commits: Commit[]; projectName: string }) {
   // local UI states
   const [statusFilter, setStatusFilter] = useState<"all" | "verified" | "pending" | "rejected">("all");
   const [visibleCount, setVisibleCount] = useState(15);
@@ -410,6 +405,16 @@ function SettingsTab({ project }: { project: Project }) {
     <div>
       <h3 className="text-sm text-gray-600">Project Settings</h3>
       <div className="mt-4 text-sm text-gray-700">
+        <h2 className="text-lg font-semibold py-4 capitalize">{project?.name}</h2>
+        <p className="text-gray-600 pb-3">{project.description}</p>
+        <div className="py-5">
+          <h3 className="uppercase text-sm pb-2">Branches</h3>
+          <div className="flex items-center justify-start gap-2">
+            {project.branches.map((b, i)=> (
+              <Badge key={i}>{b}</Badge>
+            ))}
+          </div>
+        </div>
         {/* Add form controls for editing project metadata, contributors management, and webhooks */}
         <p className="text-gray-500">Manage project metadata, collaborators, and webhooks here. (Coming soon)</p>
       </div>

@@ -30,15 +30,20 @@ export default function Modal({ open, onClose, onSubmit }: ModalProps) {
         toast.error("title and repository link are required.");
         return;
     }
+    let newbs= [];
     if(rawBranch.trim() == ""){
-        setBranch(["Main"]);
+       newbs= ["main"];
     }
     else{
-        setBranch(rawBranch.split(",").map(b => b.trim()));
+        newbs= rawBranch.split(",").map(b => b.trim());        
     }
-    onSubmit({projectName, description, branch, repoLink});
+    setBranch(newbs);
+    onSubmit({projectName, description, branch: newbs, repoLink});
     setProjectName("");
     setDescription("");
+    setBranch([]);
+    setRawBranch("");
+    setRepoLink("");
     onClose();
     setLoading(false);
 
