@@ -18,35 +18,38 @@ export default function Modal({ open, onClose, onSubmit }: ModalProps) {
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
   const [rawBranch, setRawBranch] = useState("");
-  const [branch, setBranch] = useState<string[]>([]);
   const [repoLink, setRepoLink] = useState("");
   const [loading, setLoading] = useState(false);
   if (!open) 
     return null;
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     if(projectName == "" || repoLink == ""){
         toast.error("title and repository link are required.");
         return;
     }
-    let newbs= [];
+    let branches= [];
     if(rawBranch.trim() == ""){
-       newbs= ["main"];
+       branches= ["main"];
     }
     else{
-        newbs= rawBranch.split(",").map(b => b.trim());        
+        branches= rawBranch.split(",").map(b => b.trim());        
     }
-    setBranch(newbs);
-    onSubmit({projectName, description, branch: newbs, repoLink});
-    setProjectName("");
-    setDescription("");
-    setBranch([]);
-    setRawBranch("");
-    setRepoLink("");
-    onClose();
-    setLoading(false);
-
+    try{
+        onSubmit({projectName, description, branch: branches, repoLink});
+    }
+    catch(error){
+        console.error("error", error);
+    }
+    finally{
+        setProjectName("");
+        setDescription("");
+        setRawBranch("");
+        setRepoLink("");
+        onClose();
+        setLoading(false);
+    }
   };
 
     return (
