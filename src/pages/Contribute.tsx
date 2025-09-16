@@ -94,7 +94,7 @@ export default function Contribute() {
     fetchProjects();
   }, [navigate, currentUser]);
   return (
-    <section className="min-h-screen flex  justify-start p-5  w-full">
+    <section className="min-h-screen flex  justify-start p-5 max-sm:px-2  w-full">
       <div className="flex items-left justify-start p-3 flex-col  w-full gap-4">
         <h1 className="text-sm text-zinc-600 uppercase">
           Recent Commited Projects
@@ -110,8 +110,8 @@ export default function Contribute() {
           </div>
         )}
         {/* here is to map through the projects that has been commited */}
-        <div className="flex items-start gap-7">
-          <div className={`${loading ? `hidden` : ``} flex-3/5 project-details border border-zinc-200 rounded overflow-hidden shadow-xs bg-gray-200 grid grid-cols-1 gap-[1px] w-full list-none`}>
+        <div className="flex items-start max-sm:flex-col gap-7">
+          <div className={`${loading ? `hidden` : ``} sm:flex-3/5 project-details border border-zinc-200 rounded overflow-hidden overflow-y-auto shadow-xs bg-gray-200 grid grid-cols-1 gap-[1px] w-full list-none`}>
             {projects.length > 0 ? (
               projects.map((project, index) => (
                 <Link to={`/project/${project.id}/overview/`} key={index} className="grid grid-cols-1 gap-2 px-5 py-3 bg-white hover:bg-gray-50 duration-300">
@@ -132,7 +132,7 @@ export default function Contribute() {
                     </a>
                   </p>
 
-                  <div className="flex gap-10 text-xs">
+                  <div className="flex max-sm:flex-wrap gap-x-6 gap-y-2 sm:gap-x-10 text-xs">
                     <p className=" flex gap-2 items-center justify-start gap-1 text-gray-600">
                       <Icon name="GitCommit" className="w-4 h-4" strokeWidth={2}/>
                       {project?.totalCommits || "none"}

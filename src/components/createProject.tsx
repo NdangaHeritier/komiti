@@ -108,7 +108,7 @@ export default function CreateProject({ownedProjects, loading, afterCreate}: {ow
                           </a>
                         </p>
         
-                        <div className="flex gap-10 text-xs">
+                        <div className="flex max-sm:flex-wrap gap-x-6 gap-y-2 sm:gap-x-10 text-xs">
                           <p className=" flex gap-2 items-center justify-start gap-1 text-gray-600">
                             <Icon name="GitCommit" className="w-4 h-4" strokeWidth={2}/>
                             {project?.totalCommits || "none"}

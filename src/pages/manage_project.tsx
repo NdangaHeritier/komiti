@@ -46,7 +46,7 @@ const Tabs = ({ active, onChange }: { active: TabKey; onChange: (t: TabKey) => v
     { key: "settings", label: "Settings" },
   ];
   return (
-    <div className="flex gap-2 bg-white p-2 rounded-lg border border-gray-200">
+    <div className="flex gap-2 bg-white p-2 rounded-lg border border-gray-200 max-sm:w-full">
       {tabs.map((t) => (
         <button
           key={t.key}
@@ -204,9 +204,9 @@ export default function ManageProjectPage() {
             <h1 className="text-2xl font-semibold text-zinc-900">{project.name}</h1>
             <p className="text-sm text-gray-500">{project.description}</p>
           </div>
-          <div className="flex items-center gap-3">
-            <a href={project.repoLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-sm">
-              <Icon name="Github" /> Repo
+          <div className="flex items-center gap-3 max-sm:flex-col max-sm:items-end">
+            <a href={project.repoLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-sm">
+              <Icon name="Github" size={16} strokeWidth={2} /> GitHub Repo
             </a>
             <Tabs active={tab} onChange={setTab} />
           </div>

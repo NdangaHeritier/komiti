@@ -80,7 +80,7 @@ export default function RecentCommitsCard (){
     }
 
     return(
-        <div className={`h-full flex-2/5 bg-white border border-gray-200 rounded`}>
+        <div className={`sm:h-full w-full sm:flex-2/5 bg-white border border-gray-200 rounded`}>
             <div className="p-4 uppercase text-gray-600 text-sm border-b border-gray-200 flex items-center justify-between gap-4">
                 <span className="">Recent commits</span>
                 <button className="h-7 w-7 inline-flex items-center justify-center hover:bg-gray-100 cursor-pointer rounded">
