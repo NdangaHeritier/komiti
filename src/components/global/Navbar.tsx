@@ -12,7 +12,7 @@ export default function Navbar (){
         <header className="bg-white border-b border-gray-200 p-5 flex items-center justify-between gap-5 sticky top-0">
             <Link to={`/`} className="logo inline-flex gap-3 justify-center items-center">
                 <img src="/K.png" alt="" className="w-12 h-12" />
-                <div className="text-3xl font-extrabold text-gray-600">KOMITI</div>
+                <div className="text-3xl font-extrabold text-gray-600 max-sm:hidden">KOMITI</div>
             </Link>
             <div className="links flex items-center flex-1 justify-end">
                 <ul className={`${currentUser ? `hidden`: `flex`} list-none items-center space-x-4 max-sm:hidden`}>
@@ -29,12 +29,7 @@ export default function Navbar (){
                         <Link to="#" className="text-gray-600 font-medium text-sm hover:underline py-2">Docs</Link>
                     </li>
                 </ul>
-                <div className={`items-center justify-center relative gap-3 ${currentUser ? `flex`: `hidden`}`}>
-                    {/* <span className="text-gray-600 font-medium text-sm flex gap-1">Hello, <span>{currentUser?.email?.split("@")[0]}</span></span>
-                    <FormButton type="button" text="Logout" variant="secondary" onClick={() => {
-                        signout();
-                        window.location.reload();
-                    }} /> */}
+                <div className={`items-center justify-center relative gap-3 ${currentUser ? `flex`: `hidden`}`}>                    
                     <button
                         type="button"
                         onClick={() => {setMobileNavActive(!isMobileNavActive)}}
