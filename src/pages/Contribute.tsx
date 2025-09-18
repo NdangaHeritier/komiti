@@ -45,7 +45,7 @@ export default function Contribute() {
           const projectData = {
             createdOn: doc.data().createdOn.toDate(),
             ...doc.data()
-          } as Omit <Project, "id" | "latestCommit" | "totalCommits">;
+          } as Omit <Project, "id" | "latestCommit" | "totalCommits">; // skip checking id, latestcommit, totalc.. for now
 
           const commitQuery = query(
             collection(db, "Commits"),
@@ -94,8 +94,8 @@ export default function Contribute() {
     fetchProjects();
   }, [navigate, currentUser]);
   return (
-    <section className="min-h-screen flex  justify-start p-5 max-sm:px-2  w-full">
-      <div className="flex items-left justify-start p-3 flex-col  w-full gap-4">
+    <section className="min-h-screen flex  justify-start p-5 max-sm:px-0  w-full">
+      <div className="flex items-left justify-start p-3 max-sm:px-1 flex-col  w-full gap-4">
         <h1 className="text-sm text-zinc-600 uppercase">
           Recent Commited Projects
         </h1>

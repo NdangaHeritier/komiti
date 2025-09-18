@@ -3,7 +3,7 @@ import { Icon } from "../components/global/UI/Icon";
 
 export default function Page404(){
     return(
-        <section className="min-h-screen flex items-center justify-center p-10">
+        <section className="min-h-120 flex items-center justify-center p-0 sm:p-10">
             <div className="flex flex-col items-center justify-center p-3 gap-8">
                 <img src="/logo.png" alt="" className="w-25 h-25" />
                 <h2 className="text-4xl font-bold">404 Page</h2>

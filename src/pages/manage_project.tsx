@@ -196,7 +196,7 @@ export default function ManageProjectPage() {
 
   /* ---------- Page layout ---------- */
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div className="min-h-screen py-6 sm:p-6 bg-gray-50">
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -213,7 +213,7 @@ export default function ManageProjectPage() {
         </header>
 
         {/* Main grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="flex flex-col-reverse sm:grid sm:grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left column: Overview stats & contributors */}
           <aside className="col-span-1 space-y-4">
             <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-xs">
